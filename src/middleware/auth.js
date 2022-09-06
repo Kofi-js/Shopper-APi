@@ -10,7 +10,7 @@ exports.authenticateUser = (req, res, next) => {
   // get token from header
   const authorization_token = req.header('Authorization'); // or Authorization //x-auth-token
 
-  // check if tokeen doesn't exist
+  // check if token doesn't exist
   if (!authorization_token) {
     return res.status(401).json({
       statusCode: 401,
@@ -26,8 +26,6 @@ exports.authenticateUser = (req, res, next) => {
       message: 'authorization format is Bearer <token>',
     });
   }
-
-  // else... token exists
   try {
     const token = splittedHeader[1];
     const decoded = jwt.verify(token, SECRET);
@@ -49,6 +47,17 @@ exports.checkIfAdmin = (req, res, next) => {
     return res.status(401).json({
       statusCode: 401,
       message: 'Route restricted to admin',
+    });
+  }
+
+  return next();
+};
+
+exports.checkIfVendor = (req, res, next) => {
+  if (req.user.userRole !== 'vendor' && req.user.isVendor !== true) {
+    return res.status(401).json({
+      statusCode: 401,
+      message: 'Route restricted to vendors',
     });
   }
 

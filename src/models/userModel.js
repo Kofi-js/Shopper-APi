@@ -10,11 +10,17 @@ const UserSchema = mongoose.Schema(
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+    },
+    // image would be changed from dashboard
+    profileImg: {
+      type: String,
+      required: false,
     },
     password: {
       type: String,

@@ -60,7 +60,7 @@ exports.registerUser = async (req, res) => {
         if (err) throw err;
         res.json({
           statusCode: 200,
-          message: 'user created successfully',
+          message: 'Account created successfully',
           user: {
             fullname: newUser.fullname,
             username: newUser.username,
@@ -89,11 +89,11 @@ exports.loginUser = async (req, res) => {
 
   // else
   // destructure request body
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     // Initialize user
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(400).json({
@@ -118,7 +118,8 @@ exports.loginUser = async (req, res) => {
       user: {
         id: user._id,
         username: user.userame,
-        email: user.email,
+        password: user.password,
+        userRole: user.userRole,
       },
     };
 
@@ -132,10 +133,11 @@ exports.loginUser = async (req, res) => {
         if (err) throw err;
         res.json({
           statusCode: 200,
-          message: 'user logged in successfully',
+          message: 'logged in successfully',
           user: {
-            userame: user.userame,
-            email: user.email,
+            userame: user.username,
+            password: user.password,
+            userRole: user.userRole,
           },
           token,
         });
@@ -145,4 +147,39 @@ exports.loginUser = async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
+};
+
+// @route  PUT api/auth/logout
+exports.logoutUser = async (req, res) => {
+  const splittedHeader = req.header('Authorization').split(' ');
+  if (splittedHeader[0] !== 'Bearer') {
+    return res.status(401).json({
+      statusCode: 401,
+      message: 'authorization format is Bearer <token>',
+    });
+  }
+
+  jwt.sign(splittedHeader[1], '', { expiresIn: 1 }, (logout, err) => {
+    if (logout) {
+      console.log(logout);
+      res.send({ msg: 'You have logged out successfully' });
+    } else {
+      console.error(err);
+      res.send({ msg: 'Error' });
+    }
+  });
+};
+
+// @route  POST api/auth/password-recovery
+
+// @route  DELETE api/user/:user_id/delete
+exports.deleteUser = (req, res) => {
+  User.deleteOne({
+    _id: req.params.user_id,
+  }).then(() => {
+    res.status(200).json({
+      statusCode: 200,
+      message: 'account deleted successfully',
+    });
+  });
 };

@@ -1,10 +1,15 @@
+/* eslint-disable no-undef */
 /* eslint-disable comma-dangle */
 const express = require('express');
 
 const router = express.Router();
 const { check } = require('express-validator');
 
-// const { authenticateUser, checkIfAdmin } = require('../middleware/auth');
+const {
+  authenticateUser,
+  checkIfAdmin,
+  checkIfVendor,
+} = require('../middleware/auth');
 
 // import users controller
 const usersController = require('../controllers/usersController');
@@ -31,6 +36,9 @@ router.post(
   usersController.loginUser,
 );
 
+// User logout
+router.put('/api/auth/logout', authenticateUser, usersController.logoutUser);
+
 // // Recover password
 // router.post(
 //   '/api/auth/recover-password',
@@ -41,19 +49,21 @@ router.post(
 // // accept password change
 // router.put('/api/auth/change-password?', usersController.changePassword);
 
-// // update user
+// update user
 // router.put(
 //   '/api/user/:user_id/update',
 //   authenticateUser,
 //   checkIfAdmin,
-//   usersController.updateUser
+//   checkIfVendor,
+//   usersController.updateUser,
 // );
 
-// // delete user
-// router.delete(
-//   '/api/user/:user_id/delete',
-//   authenticateUser,
-//   checkIfAdmin,
-//   usersController.deleteUser
-// );
+// delete user
+router.delete(
+  '/api/user/:user_id/delete',
+  authenticateUser,
+  checkIfAdmin,
+  checkIfVendor,
+  usersController.deleteUser,
+);
 module.exports = router;
