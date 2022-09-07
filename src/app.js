@@ -2,7 +2,9 @@
 const express = require('express');
 const debug = require('debug');
 const { json } = require('express');
-const routes = require('./routes/userRoutes');
+
+const ProductRouter = require('./routes/productRoute');
+const Authrouter = require('./routes/authRoutes');
 require('dotenv').config();
 
 // initialize express
@@ -13,6 +15,7 @@ debug(express);
 app.use(json());
 
 // connect to routes
-app.use('/', routes);
+app.use('/api/auth', Authrouter);
+app.use('/api/products', ProductRouter);
 
 module.exports = app;

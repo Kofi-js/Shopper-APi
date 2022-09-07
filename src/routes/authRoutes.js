@@ -2,7 +2,7 @@
 /* eslint-disable comma-dangle */
 const express = require('express');
 
-const router = express.Router();
+const Authrouter = express.Router();
 const { check } = require('express-validator');
 
 const {
@@ -12,10 +12,10 @@ const {
 } = require('../middleware/auth');
 
 // import users controller
-const usersController = require('../controllers/usersController');
+const usersController = require('../controllers/authControllers');
 
 // User signup
-router.post(
+Authrouter.post(
   '/api/auth/signup',
   [
     check('fullname', 'full name is required').exists(),
@@ -27,7 +27,7 @@ router.post(
 );
 
 // User Login
-router.post(
+Authrouter.post(
   '/api/auth/login',
   [
     check('username', 'Please enter your username').exists(),
@@ -37,20 +37,20 @@ router.post(
 );
 
 // User logout
-router.put('/api/auth/logout', authenticateUser, usersController.logoutUser);
+Authrouter.put('/api/auth/logout', authenticateUser, usersController.logoutUser);
 
 // // Recover password
-// router.post(
+// Authrouter.post(
 //   '/api/auth/recover-password',
 //   [check('email', 'Please enter a valid email').isEmail()],
 //   usersController.recoverPassword
 // );
 
 // // accept password change
-// router.put('/api/auth/change-password?', usersController.changePassword);
+// Authrouter.put('/api/auth/change-password?', usersController.changePassword);
 
 // update user
-// router.put(
+// Authrouter.put(
 //   '/api/user/:user_id/update',
 //   authenticateUser,
 //   checkIfAdmin,
@@ -59,11 +59,11 @@ router.put('/api/auth/logout', authenticateUser, usersController.logoutUser);
 // );
 
 // delete user
-router.delete(
+Authrouter.delete(
   '/api/user/:user_id/delete',
   authenticateUser,
   checkIfAdmin,
   checkIfVendor,
   usersController.deleteUser,
 );
-module.exports = router;
+module.exports = Authrouter;
