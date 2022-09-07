@@ -25,4 +25,14 @@ const isAuth = (req, res, next) => {
   });
 };
 
+const isAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json('You are not authorized');
+    }
+  });
+};
+
 module.exports = { verifyToken, isAuth, isAdmin };
