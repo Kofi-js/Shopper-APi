@@ -1,8 +1,6 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
+
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -18,7 +16,9 @@ exports.registerUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { fullname, username, email, password } = req.body;
+  const {
+    fullname, username, email, password,
+  } = req.body;
 
   try {
     // check for existing user

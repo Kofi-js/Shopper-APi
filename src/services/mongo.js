@@ -1,30 +1,23 @@
+/* eslint-disable no-console */
+// Database connection
 const mongoose = require('mongoose');
-
 require('dotenv').config();
 
-// Update below to match your own MongoDB connection string.
 const { MONGO_URL } = process.env;
 
-mongoose.connection.once('open', () => {
-  console.log('MongoDB connection ready!');
-});
-
-mongoose.connection.on('error', (err) => {
-  console.error(err);
-});
-
-async function mongoConnect() {
-  await mongoose
+const connectDB = () => {
+  mongoose
     .connect(MONGO_URL, {
       useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('MongoDB connected...');
+    })
+    .catch((err) => {
+      console.log(err.message);
+      process.exit(1);
     });
-}
-
-async function mongoDisconnect() {
-  await mongoose.disconnect();
-}
-
-module.exports = {
-  mongoConnect,
-  mongoDisconnect,
 };
+
+module.exports = connectDB;
