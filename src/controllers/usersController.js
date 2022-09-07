@@ -41,7 +41,7 @@ exports.registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     });
-
+    // jwt auth
     jwt.sign(
       {
         id: newUser._id,

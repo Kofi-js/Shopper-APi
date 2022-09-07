@@ -7,7 +7,6 @@ const PORT = 8000;
 
 const server = http.createServer(app);
 
-
 async function startServer() {
   await connectDB();
 
