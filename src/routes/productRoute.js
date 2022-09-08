@@ -1,5 +1,5 @@
 const express = require('express');
-const { createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
+const { createProduct, updateProduct, deleteProduct, getProduct } = require('../controllers/productController');
 const { authIsVendor } = require('../utils/verifyToken');
 // express init
 const ProductRouter = express.Router();
@@ -8,5 +8,6 @@ const ProductRouter = express.Router();
 ProductRouter.post('/api/products/add', authIsVendor, createProduct);
 ProductRouter.put('/api/products/:id', authIsVendor, updateProduct);
 ProductRouter.delete('/api/products/:id', authIsVendor, deleteProduct);
+ProductRouter.get('/api/products/find/:id', authIsVendor, getProduct);
 
 module.exports = ProductRouter;
