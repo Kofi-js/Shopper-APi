@@ -15,7 +15,7 @@ debug(express);
 app.use(json());
 
 // connect to routes
-app.use('/api/auth', Authrouter);
-app.use('/api/products', ProductRouter);
+app.use('/', Authrouter);
+app.use('/', ProductRouter);
 
 module.exports = app;

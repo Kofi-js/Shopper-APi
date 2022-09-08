@@ -32,11 +32,11 @@ const UserSchema = mongoose.Schema(
     },
     isAdmin: {
       type: Boolean,
-      default: 0,
+      default: false,
     },
     isVendor: {
       type: Boolean,
-      default: 0,
+      default: false,
     },
   },
   {
