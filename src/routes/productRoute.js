@@ -1,6 +1,6 @@
 const express = require('express');
 const { createProduct, updateProduct } = require('../controllers/productController');
-const {authIsVendor} = require('../utils/verifyToken');
+const { authIsVendor } = require('../utils/verifyToken');
 // express init
 const ProductRouter = express.Router();
 
