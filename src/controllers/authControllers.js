@@ -1,6 +1,8 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
-
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -16,9 +18,7 @@ exports.registerUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    fullname, username, email, password,
-  } = req.body;
+  const { fullname, username, email, password } = req.body;
 
   try {
     // check for existing user
@@ -174,15 +174,3 @@ exports.logoutUser = async (req, res) => {
 };
 
 // @route  POST api/auth/password-recovery
-
-// @route  DELETE api/user/:user_id/delete
-exports.deleteUser = (req, res) => {
-  User.deleteOne({
-    _id: req.params.user_id,
-  }).then(() => {
-    res.status(200).json({
-      statusCode: 200,
-      message: 'account deleted successfully',
-    });
-  });
-};

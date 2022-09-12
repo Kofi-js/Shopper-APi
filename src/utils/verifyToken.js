@@ -23,7 +23,11 @@ const verifyToken = async (req, res, next) => {
       return res.status(404).json({ message: 'token not provided' });
     }
     jwt.verify(authHeader, process.env.SECRET, (err, user) => {
-      if (err) return res.status(400).json({ message: 'somethingn went wong', error: err });
+      if (err) {
+        return res
+          .status(400)
+          .json({ message: 'something went wong', error: err });
+      }
       req.user = user;
       next();
     });
@@ -63,5 +67,8 @@ const authIsAdmin = (req, res, next) => {
 };
 
 module.exports = {
-  verifyToken, isAuth, authIsAdmin, authIsVendor,
+  verifyToken,
+  isAuth,
+  authIsAdmin,
+  authIsVendor,
 };

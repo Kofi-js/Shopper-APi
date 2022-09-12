@@ -5,14 +5,10 @@ const express = require('express');
 const Authrouter = express.Router();
 const { check } = require('express-validator');
 
-const {
-  authenticateUser,
-  checkIfAdmin,
-  checkIfVendor,
-} = require('../middleware/auth');
+const { authenticateUser } = require('../middleware/auth');
 
-// import users controller
-const usersController = require('../controllers/authControllers');
+// import auth controller
+const authController = require('../controllers/authControllers');
 
 // User signup
 Authrouter.post(
@@ -23,7 +19,7 @@ Authrouter.post(
     check('email', 'Please enter a valid email').isEmail(),
     check('password', 'A valid password is required').exists(),
   ],
-  usersController.registerUser,
+  authController.registerUser,
 );
 
 // User Login
@@ -33,37 +29,10 @@ Authrouter.post(
     check('username', 'Please enter your username').exists(),
     check('password', 'A valid password is required').exists(),
   ],
-  usersController.loginUser,
+  authController.loginUser,
 );
 
 // User logout
-Authrouter.put('/api/auth/logout', authenticateUser, usersController.logoutUser);
+Authrouter.put('/api/auth/logout', authenticateUser, authController.logoutUser);
 
-// // Recover password
-// Authrouter.post(
-//   '/api/auth/recover-password',
-//   [check('email', 'Please enter a valid email').isEmail()],
-//   usersController.recoverPassword
-// );
-
-// // accept password change
-// Authrouter.put('/api/auth/change-password?', usersController.changePassword);
-
-// update user
-// Authrouter.put(
-//   '/api/user/:user_id/update',
-//   authenticateUser,
-//   checkIfAdmin,
-//   checkIfVendor,
-//   usersController.updateUser,
-// );
-
-// delete user
-Authrouter.delete(
-  '/api/user/:user_id/delete',
-  authenticateUser,
-  checkIfAdmin,
-  checkIfVendor,
-  usersController.deleteUser,
-);
 module.exports = Authrouter;

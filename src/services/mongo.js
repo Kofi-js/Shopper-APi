@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const MONGO_URL = 'mongodb://localhost:27017/shopy';
+const { MONGO_URL } = process.env;
 
 const connectDB = () => {
   mongoose
